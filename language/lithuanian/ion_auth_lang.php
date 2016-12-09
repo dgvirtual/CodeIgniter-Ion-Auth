@@ -38,7 +38,7 @@ $lang['activate_successful'] 		  	 = 'Vartotojas aktyvuotas';
 $lang['activate_unsuccessful'] 		 	 = 'Nepavyko aktyvuoti';
 $lang['deactivate_successful'] 		  	 = 'Deaktyvuota';
 $lang['deactivate_unsuccessful'] 	  	 = 'Neįmanoma deaktyvuoti';
-$lang['activation_email_successful'] 	  	 = 'Išsiųstas pranešimas į el. paštą';
+$lang['activation_email_successful'] 	  	 = 'Išsiųstas pranešimas į Jūsų el. pašto dėžutę. Jei laiško nerasite, pasitikrinkite „Šlamšto“ aplanką';
 $lang['activation_email_unsuccessful']   	 = 'Neįmanoma išsiųsti';
 
 // Login / Logout
