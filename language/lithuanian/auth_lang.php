@@ -79,10 +79,10 @@ $lang['edit_user_lname_label']                       = 'Pavardė:';
 $lang['edit_user_company_label']                     = 'Įmonės pavadinimas:';
 $lang['edit_user_email_label']                       = 'El. p. adresas:';
 $lang['edit_user_phone_label']                       = 'Phone:';
-$lang['edit_user_password_label']                    = 'Slaptažodis: (if changing password)';
-$lang['edit_user_password_confirm_label']            = 'Confirm Slaptažodis: (if changing password)';
-$lang['edit_user_groups_heading']                    = 'Member of groups';
-$lang['edit_user_submit_btn']                        = 'Save User';
+$lang['edit_user_password_label']                    = 'Slaptažodis: (jei jis keičiamas)';
+$lang['edit_user_password_confirm_label']            = 'Patvirtinti slaptažodį: (jei jis keičiamas)';
+$lang['edit_user_groups_heading']                    = 'Grupių narys';
+$lang['edit_user_submit_btn']                        = 'Įrašyti vartotoją';
 $lang['edit_user_validation_fname_label']            = 'Vardas';
 $lang['edit_user_validation_lname_label']            = 'Pavardė';
 $lang['edit_user_validation_email_label']            = 'El. p. adresas';
@@ -134,7 +134,7 @@ $lang['forgot_password_validation_email_label']  = 'El. p. adresas';
 $lang['forgot_password_username_identity_label'] = 'Vartotojo vardas';
 $lang['forgot_password_email_identity_label']    = 'El. p. adresas';
 $lang['forgot_password_email_not_found']         = 'Duomenų bazėje tokio el. pašto adreso nėra.';
-$lang['forgot_password_identity_not_found']         = 'No record of that username address.';
+$lang['forgot_password_identity_not_found']         = 'Nerastas tokio vartotojo vardo ar adreso įrašas.';
 
 // Reset password
 $lang['reset_password_heading']                               = 'Pakeisti slaptažodį';
