@@ -358,7 +358,9 @@ class IonAuthModel
 		{
 			if (password_needs_rehash($hash, $algo, $params))
 			{
-				if ($this->setPasswordDb($identity, $password))
+				// Rehashing does not change the password, so remember tokens
+				// must stay valid.
+				if ($this->setPasswordDb($identity, $password, false))
 				{
 					$this->triggerEvents(['rehash_password', 'rehash_password_successful']);
 				}
@@ -2906,12 +2908,13 @@ class IonAuthModel
 	/**
 	 * Internal function to set a password in the database
 	 *
-	 * @param string $identity Identity
-	 * @param string $password Password
+	 * @param string  $identity                  Identity
+	 * @param string  $password                  Password
+	 * @param boolean $invalidateRememberTokens  Whether to remove all remember tokens
 	 *
 	 * @return boolean
 	 */
-	protected function setPasswordDb(string $identity, string $password): bool
+	protected function setPasswordDb(string $identity, string $password, bool $invalidateRememberTokens = true): bool
 	{
 		$hash = $this->hashPassword($password, $identity);
 
@@ -2920,19 +2923,44 @@ class IonAuthModel
 			return false;
 		}
 
-		// When setting a new password, invalidate any other token
 		$data = [
 			'password'                => $hash,
-			'remember_code'           => null,
 			'forgotten_password_code' => null,
 			'forgotten_password_time' => null,
 		];
+
+		// When setting a new password, invalidate any other token. Rehashing
+		// an unchanged password must NOT invalidate remember-me tokens.
+		if ($invalidateRememberTokens)
+		{
+			$data['remember_selector'] = null;
+			$data['remember_code']     = null;
+		}
 
 		$this->triggerEvents('extra_where');
 
 		$this->db->table($this->tables['users'])->update($data, [$this->identityColumn => $identity]);
 
-		return $this->db->affectedRows() === 1;
+		$affected = $this->db->affectedRows();
+
+		if ($invalidateRememberTokens && $this->rememberTokensTableExists())
+		{
+			$user = $this->db->table($this->tables['users'])
+							 ->select('id')
+							 ->where($this->identityColumn, $identity)
+							 ->limit(1)
+							 ->get()
+							 ->getRow();
+
+			if ($user)
+			{
+				$this->db->table($this->rememberTokensTable())
+						 ->where('user_id', (int) $user->id)
+						 ->delete();
+			}
+		}
+
+		return $affected === 1;
 	}
 
 	/**
