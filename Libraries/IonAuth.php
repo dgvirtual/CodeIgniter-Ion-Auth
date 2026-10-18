@@ -449,6 +449,15 @@ class IonAuth
 
 		$this->session->remove(array_unique($keys));
 
+		// Destroy the session on the server and start a fresh one. Skipped in
+		// tests: CI4's destroy() is a no-op there and starting a session after
+		// PHPUnit has produced output would fail.
+		if (! defined('ENVIRONMENT') || ENVIRONMENT !== 'testing')
+		{
+			$this->session->destroy();
+			$this->session->start();
+		}
+
 		// Invalidate the old session id (and delete its data on disk).
 		$this->session->regenerate(true);
 
